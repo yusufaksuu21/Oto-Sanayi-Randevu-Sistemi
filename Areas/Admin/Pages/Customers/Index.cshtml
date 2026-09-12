@@ -1,0 +1,9 @@
+@page
+@model SanayiRandevu.Areas.Admin.Pages.Customers.IndexModel
+@{ ViewData["Title"] = "Müşteriler"; }
+<div class="page-header"><div><h1 class="page-title">Müşteriler</h1><p class="page-subtitle">Kayıtlı müşterilerin iletişim, araç ve randevu bilgileri.</p></div></div>
+<partial name="/Pages/Shared/_Alerts.cshtml" />
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="table-responsive"><table class="table admin-table"><thead><tr><th>Ad</th><th>E-posta</th><th>Telefon</th><th>Araç</th><th>Randevu</th><th>Şifre sıfırla</th></tr></thead><tbody>
+@foreach (var customer in Model.Customers) { <tr><td>@customer.FullName</td><td>@customer.Email</td><td>@customer.Phone</td><td>@customer.VehicleCount</td><td>@customer.AppointmentCount</td><td><form method="post" asp-page-handler="ResetPassword" class="d-flex gap-2"><input type="hidden" asp-for="Input.UserId" value="@customer.Id" /><input asp-for="Input.NewPassword" class="form-control form-control-sm" placeholder="Yeni şifre" /><button class="btn btn-sm btn-outline-primary">Kaydet</button></form></td></tr> }
+</tbody></table></div>

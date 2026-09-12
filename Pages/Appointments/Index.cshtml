@@ -1,0 +1,71 @@
+@page
+@model SanayiRandevu.Pages.Appointments.IndexModel
+@{
+    ViewData["Title"] = "Randevularım";
+}
+
+<div class="page-header animate-in">
+    <div>
+        <h1 class="page-title">Randevularım</h1>
+        <p class="page-subtitle">Tüm randevularınızı buradan takip edebilirsiniz.</p>
+    </div>
+    <a asp-page="Create" class="btn btn-primary btn-glow">
+        <i class="bi bi-calendar-plus me-1"></i> Yeni Randevu
+    </a>
+</div>
+
+<partial name="_Alerts" />
+
+@if (!Model.Appointments.Any())
+{
+    <div class="empty-state animate-in">
+        <div class="empty-icon"><i class="bi bi-calendar-x"></i></div>
+        <h3>Henüz randevunuz yok</h3>
+        <p>Hemen randevu alarak aracınızı servise bırakın.</p>
+        <a asp-page="Create" class="btn btn-primary">Randevu Al</a>
+    </div>
+}
+else
+{
+    <div class="row g-4">
+        @foreach (var a in Model.Appointments)
+        {
+            <div class="col-lg-6 animate-in">
+                <div class="card appointment-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h5 class="card-title mb-1">@a.Service?.Name</h5>
+                                <span class="text-muted">@a.Vehicle?.Plate — @a.Vehicle?.Brand @a.Vehicle?.Model</span>
+                            </div>
+                            <span class="status-badge @AppointmentDisplayHelper.GetStatusBadgeClass(a.Status)">
+                                @AppointmentDisplayHelper.GetStatusText(a.Status)
+                            </span>
+                        </div>
+                        <div class="appointment-meta">
+                            <span><i class="bi bi-calendar3"></i> @a.AppointmentDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))</span>
+                            <span><i class="bi bi-clock"></i> @a.TimeSlot</span>
+                        </div>
+                        @if (!string.IsNullOrEmpty(a.Notes))
+                        {
+                            <div class="customer-note mt-3">
+                                <small class="text-muted d-block mb-1">Mesajınız</small>
+                                @a.Notes
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(a.AdminReply))
+                        {
+                            <div class="admin-reply mt-3">
+                                <small class="d-block mb-1"><i class="bi bi-chat-dots me-1"></i>Dükkan Geri Bildirimi</small>
+                                @a.AdminReply
+                            </div>
+                        }
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3 px-3">
+                        <a asp-page="Details" asp-route-id="@a.Id" class="btn btn-sm btn-outline-primary">Detay</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

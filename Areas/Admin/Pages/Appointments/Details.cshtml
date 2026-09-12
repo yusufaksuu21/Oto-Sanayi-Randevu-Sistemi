@@ -1,0 +1,121 @@
+@page "{id:int}"
+@model SanayiRandevu.Areas.Admin.Pages.Appointments.DetailsModel
+@{
+    ViewData["Title"] = "Randevu Yönetimi";
+    var a = Model.Appointment;
+}
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <partial name="/Pages/Shared/_Alerts.cshtml" />
+
+        <div class="card form-card animate-in">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <div>
+                        <h2 class="mb-1">Randevu #@a.Id</h2>
+                        <span class="status-badge @AppointmentDisplayHelper.GetStatusBadgeClass(a.Status)">
+                            @AppointmentDisplayHelper.GetStatusText(a.Status)
+                        </span>
+                    </div>
+                    <a asp-page="Index" class="btn btn-sm btn-outline-secondary">← Listeye Dön</a>
+                </div>
+
+                <div class="detail-grid mb-4">
+                    <div class="detail-item">
+                        <small>Tarih / Saat</small>
+                        <strong>@a.AppointmentDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR")) — @a.TimeSlot</strong>
+                    </div>
+                    <div class="detail-item">
+                        <small>Müşteri</small>
+                        <strong>@(a.Customer?.FullName ?? "—")</strong>
+                        <span class="d-block text-muted">@a.Customer?.Email</span>
+                        @if (!string.IsNullOrEmpty(a.Customer?.PhoneNumber))
+                        {
+                            <span class="d-block text-muted">@a.Customer.PhoneNumber</span>
+                        }
+                    </div>
+                    <div class="detail-item">
+                        <small>Araç</small>
+                        <strong>@a.Vehicle?.Plate</strong>
+                        <span class="d-block text-muted">@a.Vehicle?.Brand @a.Vehicle?.Model (@a.Vehicle?.Year)</span>
+                    </div>
+                    <div class="detail-item">
+                        <small>Hizmet</small>
+                        <strong>@a.Service?.Name</strong>
+                        <span class="d-block text-muted">@a.Service?.Price.ToString("N0") ₺ · ~@a.Service?.DurationMinutes dk</span>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(a.Notes))
+                {
+                    <div class="customer-note mb-4">
+                        <small class="text-muted d-block mb-1"><i class="bi bi-person me-1"></i>Müşteri Mesajı</small>
+                        @a.Notes
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card form-card animate-in">
+            <div class="card-body p-4">
+                <h4 class="mb-3">İşlemler</h4>
+
+                <form method="post">
+                    <input type="hidden" asp-for="Input.AppointmentId" />
+
+                    <div class="mb-3">
+                        <label asp-for="Input.AdminReply" class="form-label"></label>
+                        <textarea asp-for="Input.AdminReply" class="form-control" rows="4"
+                                  placeholder="Müşteriye geri bildirim mesajı yazın..."></textarea>
+                    </div>
+
+                    <div class="d-grid gap-2 mb-3">
+                        <button formaction="?handler=Reply" type="submit" class="btn btn-outline-primary">
+                            <i class="bi bi-send me-1"></i> Mesaj Gönder
+                        </button>
+                    </div>
+
+                    @if (a.Status == AppointmentStatus.Pending)
+                    {
+                        <div class="d-grid gap-2 mb-2">
+                            <button formaction="?handler=Confirm" type="submit" class="btn btn-success">
+                                <i class="bi bi-check-lg me-1"></i> Onayla
+                            </button>
+                            <button formaction="?handler=Cancel" type="submit" class="btn btn-outline-danger"
+                                    onclick="return confirm('Randevuyu iptal etmek istediğinize emin misiniz?');">
+                                <i class="bi bi-x-lg me-1"></i> Reddet / İptal
+                            </button>
+                        </div>
+                    }
+                    @if (a.Status == AppointmentStatus.Confirmed)
+                    {
+                        <div class="d-grid gap-2">
+                            <button formaction="?handler=Complete" type="submit" class="btn btn-primary">
+                                <i class="bi bi-flag me-1"></i> Tamamlandı İşaretle
+                            </button>
+                            <button formaction="?handler=Cancel" type="submit" class="btn btn-outline-danger"
+                                    onclick="return confirm('Randevuyu iptal etmek istediğinize emin misiniz?');">
+                                İptal Et
+                            </button>
+                        </div>
+                    }
+                </form>
+
+                @if (!string.IsNullOrEmpty(a.AdminReply))
+                {
+                    <div class="admin-reply mt-4">
+                        <small class="d-block mb-1">Son Gönderilen Mesaj</small>
+                        @a.AdminReply
+                        @if (a.AdminReplyAt.HasValue)
+                        {
+                            <small class="d-block mt-2 opacity-75">@a.AdminReplyAt.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</small>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

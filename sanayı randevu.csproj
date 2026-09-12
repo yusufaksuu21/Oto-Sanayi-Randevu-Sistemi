@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SanayiRandevu</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- EF paket sürümleri .NET 9 ile uyumlu 9.x kullanılacak -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.0" />
+  </ItemGroup>
+
+  <!-- Visual Studio'nun calistirdigi bin klasorundeki statik dosyalari
+       kaynak wwwroot ile her derlemede esitle. -->
+  <Target Name="CopyCurrentStaticAssets" AfterTargets="Build">
+    <ItemGroup>
+      <CurrentStaticAssets Include="wwwroot\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(CurrentStaticAssets)"
+          DestinationFiles="@(CurrentStaticAssets->'$(OutDir)wwwroot\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

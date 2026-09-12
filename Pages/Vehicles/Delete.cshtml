@@ -1,0 +1,28 @@
+@page "{id:int}"
+@model SanayiRandevu.Pages.Vehicles.DeleteModel
+@{
+    ViewData["Title"] = "Araç Sil";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card form-card animate-in border-danger">
+            <div class="card-body p-4">
+                <h2 class="text-danger mb-3">Aracı Sil</h2>
+                <p>Bu aracı silmek istediğinize emin misiniz?</p>
+                <dl class="row">
+                    <dt class="col-sm-4">Plaka</dt>
+                    <dd class="col-sm-8"><strong>@Model.Vehicle.Plate</strong></dd>
+                    <dt class="col-sm-4">Marka / Model</dt>
+                    <dd class="col-sm-8">@Model.Vehicle.Brand @Model.Vehicle.Model</dd>
+                    <dt class="col-sm-4">Yıl</dt>
+                    <dd class="col-sm-8">@Model.Vehicle.Year</dd>
+                </dl>
+                <form method="post">
+                    <button type="submit" class="btn btn-danger">Evet, Sil</button>
+                    <a asp-page="Index" class="btn btn-outline-secondary ms-2">Vazgeç</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

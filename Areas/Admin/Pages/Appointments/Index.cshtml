@@ -1,0 +1,112 @@
+@page
+@model SanayiRandevu.Areas.Admin.Pages.Appointments.IndexModel
+@{
+    ViewData["Title"] = "Admin Paneli";
+}
+
+<div class="page-header animate-in">
+    <div>
+        <h1 class="page-title">Admin Paneli</h1>
+        <p class="page-subtitle">Randevulari y�netin, onaylayin ve m�sterilere geri bildirim verin.</p>
+    </div>
+</div>
+
+<partial name="/Pages/Shared/_Alerts.cshtml" />
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4 animate-in">
+        <div class="stat-card stat-pending">
+            <div class="stat-value">@Model.PendingCount</div>
+            <div class="stat-label">Onay Bekleyen</div>
+        </div>
+    </div>
+    <div class="col-md-4 animate-in">
+        <div class="stat-card stat-confirmed">
+            <div class="stat-value">@Model.ConfirmedCount</div>
+            <div class="stat-label">Onaylanan</div>
+        </div>
+    </div>
+    <div class="col-md-4 animate-in">
+        <div class="stat-card stat-today">
+            <div class="stat-value">@Model.TodayCount</div>
+            <div class="stat-label">Bug�nk� Randevu</div>
+        </div>
+    </div>
+</div>
+
+<div class="card form-card animate-in mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label">Durum Filtresi</label>
+                <select name="StatusFilter" class="form-select">
+                    <option value="">T�m�</option>
+                    <option value="Pending" selected="@(Model.StatusFilter == "Pending" ? "selected" : null)">Onay Bekleyen</option>
+                    <option value="Confirmed" selected="@(Model.StatusFilter == "Confirmed" ? "selected" : null)">Onaylanan</option>
+                    <option value="Completed" selected="@(Model.StatusFilter == "Completed" ? "selected" : null)">Tamamlanan</option>
+                    <option value="Cancelled" selected="@(Model.StatusFilter == "Cancelled" ? "selected" : null)">Iptal</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Tarih Filtresi</label>
+                <input type="date" name="DateFilter" value="@(Model.DateFilter?.ToString("yyyy-MM-dd"))" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Filtrele</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (!Model.Appointments.Any())
+{
+    <div class="empty-state animate-in">
+        <div class="empty-icon"><i class="bi bi-inbox"></i></div>
+        <h3>Randevu bulunamadi</h3>
+    </div>
+}
+else
+{
+    <div class="table-responsive animate-in">
+        <table class="table table-hover admin-table">
+            <thead>
+                <tr>
+                    <th>Tarih / Saat</th>
+                    <th>M�steri</th>
+                    <th>Ara�</th>
+                    <th>Hizmet</th>
+                    <th>Durum</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model.Appointments)
+                {
+                    <tr>
+                        <td>
+                            <strong>@a.AppointmentDate.ToString("dd.MM.yyyy")</strong><br />
+                            <span class="text-muted">@a.TimeSlot</span>
+                        </td>
+                        <td>
+                            @(a.Customer?.FullName ?? a.Customer?.Email)
+                            @if (!string.IsNullOrEmpty(a.Notes))
+                            {
+                                <i class="bi bi-chat-left-text text-primary ms-1" title="M�steri mesaji var"></i>
+                            }
+                        </td>
+                        <td>@a.Vehicle?.Plate</td>
+                        <td>@a.Service?.Name</td>
+                        <td>
+                            <span class="status-badge @AppointmentDisplayHelper.GetStatusBadgeClass(a.Status)">
+                                @AppointmentDisplayHelper.GetStatusText(a.Status)
+                            </span>
+                        </td>
+                        <td>
+                            <a asp-page="Details" asp-route-id="@a.Id" class="btn btn-sm btn-outline-primary">Y�net</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

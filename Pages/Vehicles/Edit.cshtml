@@ -1,0 +1,47 @@
+@page "{id:int}"
+@model SanayiRandevu.Pages.Vehicles.EditModel
+@{
+    ViewData["Title"] = "Araç Düzenle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card form-card animate-in">
+            <div class="card-body p-4">
+                <h2 class="mb-4">Araç Düzenle</h2>
+                <form method="post">
+                    <input type="hidden" asp-for="Input.Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div class="mb-3">
+                        <label asp-for="Input.Plate" class="form-label"></label>
+                        <input asp-for="Input.Plate" class="form-control" />
+                        <span asp-validation-for="Input.Plate" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.Brand" class="form-label"></label>
+                        <input asp-for="Input.Brand" class="form-control" />
+                        <span asp-validation-for="Input.Brand" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.Model" class="form-label"></label>
+                        <input asp-for="Input.Model" class="form-control" />
+                        <span asp-validation-for="Input.Model" class="text-danger"></span>
+                    </div>
+                    <div class="mb-4">
+                        <label asp-for="Input.Year" class="form-label"></label>
+                        <input asp-for="Input.Year" class="form-control" type="number" />
+                        <span asp-validation-for="Input.Year" class="text-danger"></span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Güncelle</button>
+                        <a asp-page="Index" class="btn btn-outline-secondary">İptal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

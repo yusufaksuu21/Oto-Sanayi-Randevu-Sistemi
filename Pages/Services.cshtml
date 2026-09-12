@@ -1,0 +1,30 @@
+@page
+@model SanayiRandevu.Pages.ServicesModel
+@{
+    ViewData["Title"] = "Hizmetler";
+}
+
+<div class="page-header animate-in">
+    <div>
+        <h1 class="page-title">Hizmetlerimiz</h1>
+        <p class="page-subtitle">Fiyat, tahmini sure ve hizmet ayrintilarini inceleyin.</p>
+    </div>
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+        <a asp-page="/Appointments/Create" class="btn btn-primary">Randevu Al</a>
+    }
+</div>
+
+<div class="row g-4">
+@foreach (var service in Model.Services)
+{
+    <div class="col-md-6 col-lg-4 animate-in">
+        <article class="service-card h-100">
+            <div class="service-icon"><i class="bi bi-gear-wide-connected"></i></div>
+            <h4>@service.Name</h4>
+            <p class="text-muted">@service.Description</p>
+            <div class="service-meta"><span><i class="bi bi-clock"></i> @service.DurationMinutes dk</span><span class="service-price">@service.Price.ToString("N0") TL</span></div>
+        </article>
+    </div>
+}
+</div>

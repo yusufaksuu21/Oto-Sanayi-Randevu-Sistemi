@@ -1,0 +1,127 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Anasayfa";
+    ViewData["FullWidth"] = true;
+}
+
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-7 animate-in">
+                <span class="hero-badge">Profesyonel Oto Servis</span>
+                <h1 class="hero-title">Aracınız İçin<br /><span class="text-gradient">Hızlı Randevu</span></h1>
+                <p class="hero-subtitle">
+                    Online randevu alın, saat seçin, mesajınızı bırakın. Dükkan sahibi onayladığında size geri bildirim yapılır.
+                </p>
+                <div class="hero-actions">
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <a asp-page="/Appointments/Create" class="btn btn-primary btn-lg btn-glow me-2 mb-2">
+                            <i class="bi bi-calendar-plus me-2"></i>Randevu Al
+                        </a>
+                        <a asp-page="/Appointments/Index" class="btn btn-outline-light btn-lg mb-2">Randevularım</a>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg btn-glow me-2 mb-2">
+                            Hemen Başla
+                        </a>
+                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-light btn-lg mb-2">Giriş Yap</a>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block animate-in delay-1">
+                <div class="hero-card">
+                    <div class="hero-card-icon"><i class="bi bi-tools"></i></div>
+                    <h4>Güvenilir Servis</h4>
+                    <p>Uzman ekibimiz aracınıza özenle bakar.</p>
+                    <ul class="hero-features">
+                        <li><i class="bi bi-check2"></i> Online randevu</li>
+                        <li><i class="bi bi-check2"></i> Anlık onay bildirimi</li>
+                        <li><i class="bi bi-check2"></i> Mesajla geri bildirim</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="text-center mb-5 animate-on-scroll">
+            <h2 class="section-title">Nasıl Çalışır?</h2>
+            <p class="section-subtitle">3 adımda randevunuzu alın</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4 animate-on-scroll">
+                <div class="step-card">
+                    <div class="step-icon">1</div>
+                    <h5>Kayıt Ol & Araç Ekle</h5>
+                    <p>Hesabınızı oluşturun ve aracınızı sisteme kaydedin.</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate-on-scroll">
+                <div class="step-card">
+                    <div class="step-icon">2</div>
+                    <h5>Randevu Seç</h5>
+                    <p>Hizmet, tarih ve saat seçin. İsterseniz mesaj bırakın.</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate-on-scroll">
+                <div class="step-card">
+                    <div class="step-icon">3</div>
+                    <h5>Onay & Geri Bildirim</h5>
+                    <p>Dükkan onaylar ve size geri bildirim mesajı gönderir.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding bg-surface">
+    <div class="container">
+        <div class="text-center mb-5 animate-on-scroll">
+            <h2 class="section-title">Hizmetlerimiz</h2>
+            <p class="section-subtitle">Aracınız için sunduğumuz servisler</p>
+        </div>
+        <div class="row g-4">
+            @foreach (var service in Model.Services)
+            {
+                <div class="col-md-6 col-lg-4 animate-on-scroll">
+                    <div class="service-card h-100">
+                        <div class="service-icon"><i class="bi bi-gear-wide-connected"></i></div>
+                        <h5>@service.Name</h5>
+                        <p class="text-muted">@service.Description</p>
+                        <div class="service-meta">
+                            <span><i class="bi bi-clock"></i> @service.DurationMinutes dk</span>
+                            <span class="service-price">@service.Price.ToString("N0") ₺</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <div class="text-center mt-5 animate-on-scroll">
+                <a asp-page="/Appointments/Create" class="btn btn-primary btn-lg btn-glow">Randevu Al</a>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="cta-section animate-on-scroll">
+    <div class="container text-center">
+        <h2>Aracınız servise hazır mı?</h2>
+        <p class="mb-4">Hemen randevu alın, sırada beklemeyin.</p>
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <a asp-page="/Appointments/Create" class="btn btn-light btn-lg">Randevu Al</a>
+        }
+        else
+        {
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-light btn-lg">Ücretsiz Kayıt Ol</a>
+        }
+    </div>
+</section>

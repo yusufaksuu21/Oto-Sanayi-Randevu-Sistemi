@@ -1,0 +1,26 @@
+# Build output and IDE files
+bin/
+obj/
+build-validation/
+.vs/
+.vscode/
+
+# Local SQLite databases and database sidecar files
+*.db
+*.db-shm
+*.db-wal
+
+# Local configuration and secrets
+appsettings.Local.json
+appsettings.*.local.json
+*.user
+*.userosscache
+*.suo
+
+# Logs and local tooling files
+*.log
+.DS_Store
+
+# Keep the checked-in, non-secret application settings files
+!appsettings.json
+!appsettings.Development.json
