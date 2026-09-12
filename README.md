@@ -163,4 +163,4 @@ dotnet publish -c Release -o ./publish
 
 ## Lisans
 
-Bu proje için henüz bir lisans belirtilmemiştir. GitHub'da açık kaynak olarak paylaşmadan önce uygun bir lisans dosyası ekleyin.
+Bu proje için henüz bir lisans belirtilmemiştir.
