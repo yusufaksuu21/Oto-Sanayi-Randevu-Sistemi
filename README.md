@@ -1,5 +1,9 @@
 # Sanayi Randevu
 
+## Canlı Demo
+
+Uygulamayı canlı olarak incelemek için: [Oto Sanayi Randevu Sistemi](https://oto-sanayi-randevu-sistemi.onrender.com)
+
 Sanayi Randevu, bir oto sanayi işletmesinin müşterilerinden çevrim içi servis randevusu almasını ve işletme yöneticisinin bu randevuları yönetmesini sağlayan ASP.NET Core Razor Pages uygulamasıdır.
 
 ## Özellikler
