@@ -73,11 +73,11 @@ namespace SanayiRandevu.Data
             {
                 var services = new List<Service>
                 {
-                    new Service { Name = "Yağ Değişimi", Description = "Motor yağı ve filtre değişimi", DurationMinutes = 30, Price = 500m },
-                    new Service { Name = "Lastik Değişimi", Description = "Lastik değiştirme ve balans", DurationMinutes = 45, Price = 300m },
-                    new Service { Name = "Genel Bakım", Description = "Periyodik genel bakım", DurationMinutes = 90, Price = 1200m },
-                    new Service { Name = "Fren Kontrolü", Description = "Fren sistemi kontrolü ve küçük ayarlar", DurationMinutes = 30, Price = 400m },
-                    new Service { Name = "Arıza Tespiti", Description = "Elektronik arıza teşhisi", DurationMinutes = 60, Price = 350m }
+                    new Service { Name = "Yağ Değişimi", Description = "Motor yağı ve filtre değişimi", DurationMinutes = 30, Price = 1000m },
+                    new Service { Name = "Lastik Değişimi", Description = "Lastik değiştirme ve balans", DurationMinutes = 45, Price = 600m },
+                    new Service { Name = "Genel Bakım", Description = "Periyodik genel bakım", DurationMinutes = 90, Price = 2400m },
+                    new Service { Name = "Fren Kontrolü", Description = "Fren sistemi kontrolü ve küçük ayarlar", DurationMinutes = 30, Price = 800m },
+                    new Service { Name = "Arıza Tespiti", Description = "Elektronik arıza teşhisi", DurationMinutes = 60, Price = 700m }
                 };
 
                 db.Services.AddRange(services);
