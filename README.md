@@ -161,6 +161,42 @@ dotnet publish -c Release -o ./publish
 
 Üretimde `ASPNETCORE_ENVIRONMENT=Production` kullanın, HTTPS yapılandırın, güçlü bir admin parolası belirleyin ve SQLite dosyasının yedekleme/erişim politikasını ayrıca planlayın.
 
+## Docker ile çalıştırma
+
+Docker image'ını oluşturmak için:
+
+```bash
+docker build -t sanayirandevu .
+```
+
+Container'ı çalıştırmak için:
+
+```bash
+docker run --rm -p 10000:10000 \
+  -e SeedAdmin__Email=admin@example.com \
+  -e SeedAdmin__Password="Guclu-Ve-Gizli-Bir-Parola-123!" \
+  sanayirandevu
+```
+
+Uygulama container içinde `10000` portunu dinler. SQLite verilerinin container yeniden oluşturulduğunda kaybolmaması için üretimde kalıcı disk veya harici bir veritabanı kullanın.
+
+## Render üzerinde yayınlama
+
+1. Render panelinde **New > Web Service** seçin ve GitHub deposunu bağlayın.
+2. Environment olarak **Docker** seçin. Render kök dizindeki `Dockerfile` dosyasını otomatik kullanır.
+3. Servis portunu `10000` olarak ayarlayın.
+4. Aşağıdaki environment variables değerlerini Render servis ayarlarına ekleyin:
+
+```text
+ASPNETCORE_ENVIRONMENT=Production
+SeedAdmin__Email=admin@example.com
+SeedAdmin__Password=<guclu-ve-gizli-parola>
+```
+
+5. Deploy işlemini başlatın. Render her deploy sırasında Docker image'ını yeniden oluşturur.
+
+`SeedAdmin__Password` değerini GitHub'a veya Dockerfile'a yazmayın. SQLite kullanıldığı için Render'da kalıcı disk bağlanmazsa servis yeniden deploy edildiğinde uygulama verileri sıfırlanabilir.
+
 ## Lisans
 
 Bu proje için henüz bir lisans belirtilmemiştir.

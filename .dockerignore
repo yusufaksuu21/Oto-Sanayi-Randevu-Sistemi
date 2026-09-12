@@ -1,0 +1,11 @@
+bin/
+obj/
+build-validation/
+.vs/
+.git/
+.gitignore
+*.db
+*.db-shm
+*.db-wal
+Dockerfile
+README.md
