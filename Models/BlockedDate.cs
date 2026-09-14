@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SanayiRandevu.Models
 {
-    // Kapal� tarih (tatil vb.)
+    // Randevu alınmasını engelleyen özel tarih ve sebep kaydı.
     public class BlockedDate
     {
         public int Id { get; set; }

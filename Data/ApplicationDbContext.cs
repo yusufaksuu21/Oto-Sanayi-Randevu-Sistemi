@@ -4,12 +4,12 @@ using SanayiRandevu.Models;
 
 namespace SanayiRandevu.Data
 {
-    // IdentityDbContext ile Identity tablolar� dahil edilmi� DbContext
+    // Uygulamanın veritabanı bağlamını oluşturan ana konteks sınıfı.
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        // DbSet'ler
+        // Veritabanı tabloları
         public DbSet<Vehicle> Vehicles { get; set; } = null!;
         public DbSet<Service> Services { get; set; } = null!;
         public DbSet<Appointment> Appointments { get; set; } = null!;
@@ -20,35 +20,35 @@ namespace SanayiRandevu.Data
         {
             base.OnModelCreating(builder);
 
-            // Vehicle.Owner ili�kisi: Owner silinirse ara�lar silinsin (Cascade)
+            // Vehicle.Owner ilişkisi: sahibi silinirse araçlar da silinsin.
             builder.Entity<Vehicle>()
                 .HasOne(v => v.Owner)
                 .WithMany(u => u.Vehicles)
                 .HasForeignKey(v => v.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Appointment.Customer ili�kisi: M��teri silinirse randevular silinsin (Cascade)
+            // Appointment.Customer ilişkisi: müşteri silinirse randevular da silinsin.
             builder.Entity<Appointment>()
                 .HasOne(a => a.Customer)
                 .WithMany(u => u.Appointments)
                 .HasForeignKey(a => a.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Appointment.Vehicle ili�kisi: Ara� silinirse randevu silinmesin (Restrict)
+            // Appointment.Vehicle ilişkisi: araç silinirse randevular silinmesin.
             builder.Entity<Appointment>()
                 .HasOne(a => a.Vehicle)
                 .WithMany()
                 .HasForeignKey(a => a.VehicleId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Appointment.Service ili�kisi: Service silinirse randevu silinmesin (Restrict)
+            // Appointment.Service ilişkisi: hizmet silinirse randevular silinmesin.
             builder.Entity<Appointment>()
                 .HasOne(a => a.Service)
                 .WithMany()
                 .HasForeignKey(a => a.ServiceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Appointment.Status string olarak saklans�n (okunurluk)
+            // Appointment.Status alanı metin olarak saklansın; daha okunaklı olsun.
             builder.Entity<Appointment>()
                 .Property(a => a.Status)
                 .HasConversion<string>();

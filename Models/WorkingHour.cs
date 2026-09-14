@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SanayiRandevu.Models
 {
-    // Haftalık çalışma saatleri kaydı
+    // Her gÃ¼n iÃ§in Ã§alÄ±ÅŸma kapÄ± saatlerini tanÄ±mlayan plan kaydÄ±.
     public class WorkingHour
     {
         public int Id { get; set; }
@@ -11,13 +11,13 @@ namespace SanayiRandevu.Models
         [Required]
         public DayOfWeek DayOfWeek { get; set; }
 
-        [Required(ErrorMessage = "Açılış saati zorunludur.")]
+        [Required(ErrorMessage = "AÃ§Ä±lÄ±ÅŸ saati zorunludur.")]
         public TimeSpan OpenTime { get; set; }
 
-        [Required(ErrorMessage = "Kapanış saati zorunludur.")]
+        [Required(ErrorMessage = "KapanÄ±ÅŸ saati zorunludur.")]
         public TimeSpan CloseTime { get; set; }
 
-        // O gün kapalı mı
+        // Bu gÃ¼n kapalÄ± mÄ±?
         public bool IsClosed { get; set; } = false;
     }
 }

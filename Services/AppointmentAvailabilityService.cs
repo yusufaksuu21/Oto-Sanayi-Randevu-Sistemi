@@ -4,7 +4,7 @@ using SanayiRandevu.Models;
 
 namespace SanayiRandevu.Services
 {
-    // Randevu müsaitlik kontrol servisi
+    // SeÃ§ilen tarih iÃ§in uygun randevu saatlerini hesaplayan servis.
     public class AppointmentAvailabilityService
     {
         private readonly ApplicationDbContext _db;
@@ -16,16 +16,16 @@ namespace SanayiRandevu.Services
             _db = db;
         }
 
-        // Belirli tarih için müsait saat dilimlerini döndürür (örn "09:00")
+        // Belirli bir tarih iÃ§in mÃ¼sait saat dilimlerini dÃ¶ndÃ¼rÃ¼r. Ã–rnek: "09:00"
         public async Task<List<string>> GetAvailableTimeSlotsAsync(DateTime date)
         {
             var target = date.Date;
 
-            // Kapalı tarih kontrolü
+            // KapalÄ± tarih kontrolÃ¼
             var isBlocked = await _db.BlockedDates.AnyAsync(b => b.Date.Date == target);
             if (isBlocked) return new List<string>();
 
-            // Çalışma saatleri kontrolü
+            // Ã‡alÄ±ÅŸma saatleri kontrolÃ¼
             var wh = await _db.WorkingHours.FirstOrDefaultAsync(w => w.DayOfWeek == target.DayOfWeek);
             if (wh == null || wh.IsClosed) return new List<string>();
 
@@ -47,12 +47,12 @@ namespace SanayiRandevu.Services
             return result;
         }
 
-        // Tek bir slotun hâlâ müsait olup olmadığını kontrol eder
+        // Tek bir saat diliminin mÃ¼sait olup olmadÄ±ÄŸÄ±nÄ± kontrol eder
         public async Task<bool> IsSlotAvailableAsync(DateTime date, string timeSlot)
         {
             var target = date.Date;
 
-            // Kapalı tarih kontrolü
+            // KapalÄ± tarih kontrolÃ¼
             var isBlocked = await _db.BlockedDates.AnyAsync(b => b.Date.Date == target);
             if (isBlocked) return false;
 

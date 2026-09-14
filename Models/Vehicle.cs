@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SanayiRandevu.Models
 {
-    // Kullanıcının aracı
+    // KullanÄ±cÄ±nÄ±n sahip olduÄŸu araca ait temel bilgiler ve plakayÄ± tutan model.
     public class Vehicle
     {
         public int Id { get; set; }
@@ -11,7 +11,7 @@ namespace SanayiRandevu.Models
         [Required]
         public string OwnerId { get; set; } = null!;
 
-        // Araç sahibi navigation
+        // AracÄ±n sahibi
         [ForeignKey(nameof(OwnerId))]
         public ApplicationUser? Owner { get; set; }
 
@@ -27,7 +27,7 @@ namespace SanayiRandevu.Models
         [StringLength(50)]
         public string Model { get; set; } = null!;
 
-        [Range(1980, 2026, ErrorMessage = "Yıl 1980 ile 2026 arasında olmalıdır.")]
+        [Range(1980, 2026, ErrorMessage = "YÄ±l 1980 ile 2026 arasÄ±nda olmalÄ±dÄ±r.")]
         public int Year { get; set; }
     }
 }

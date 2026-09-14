@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SanayiRandevu.Models
 {
-    // Randevu kayd�
+    // Müşteri, araç ve hizmet seçimini tek bir randevu kaydında birleştiren model.
     public class Appointment
     {
         public int Id { get; set; }
@@ -12,20 +12,20 @@ namespace SanayiRandevu.Models
         [Required]
         public string CustomerId { get; set; } = null!;
 
-        // M��teri navigation
+        // Randevuyu oluşturan müşteri
         [ForeignKey(nameof(CustomerId))]
         public ApplicationUser? Customer { get; set; }
 
         [Required]
         public int VehicleId { get; set; }
 
-        // Ara� navigation
+        // Randevuya ait araç
         public Vehicle? Vehicle { get; set; }
 
         [Required]
         public int ServiceId { get; set; }
 
-        // Hizmet navigation
+        // Seçilen hizmet
         public Service? Service { get; set; }
 
         [Required(ErrorMessage = "Randevu tarihi zorunludur.")]
@@ -34,16 +34,16 @@ namespace SanayiRandevu.Models
 
         [Required(ErrorMessage = "Saat dilimi zorunludur.")]
         [StringLength(5)]
-        public string TimeSlot { get; set; } = null!; // �rn "09:00"
+        public string TimeSlot { get; set; } = null!; // Örnek: "09:00"
 
         [Required]
         public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
 
-        // M??teri notu / mesaj?
+        // Müşteriye ait ek not veya mesaj
         [StringLength(1000)]
         public string? Notes { get; set; }
 
-        // Admin geri bildirimi
+        // Yöneticinin randevuya verdiği yanıt
         [StringLength(1000)]
         public string? AdminReply { get; set; }
 

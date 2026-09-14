@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace SanayiRandevu.Models
 {
-    // IdentityUser'dan genişletilmiş uygulama kullanıcısı
+    // Kimlik doÄŸrulamasÄ± iÃ§in geniÅŸletilmiÅŸ kullanÄ±cÄ± profili.
     public class ApplicationUser : IdentityUser
     {
-        // Tam ad (opsiyonel)
+        // Tam ad bilgisi (isteÄŸe baÄŸlÄ±)
         public string? FullName { get; set; }
 
-        // Kullanıcının araçları ve randevuları (navigation)
+        // KullanÄ±cÄ±nÄ±n araÃ§larÄ± ve randevularÄ±
         public ICollection<Vehicle>? Vehicles { get; set; }
         public ICollection<Appointment>? Appointments { get; set; }
     }

@@ -6,11 +6,11 @@ using SanayiRandevu.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// SQLite balant dizesi
+// Uygulama iÃ§in SQLite veritabanÄ± baÄŸlantÄ±sÄ±nÄ± hazÄ±rlar.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=otosanayi.db";
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
 
-// Identity yaplandrmas
+// Identity yapÄ±landÄ±rmasÄ±
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
@@ -30,12 +30,12 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizeAreaFolder("Admin", "/", "Admin");
 });
 
-// Msaitlik servisini DI'ye ekle (Scoped)
+// Randevu mÃ¼saitlik servisini DI konteynesine ekle (Scoped)
 builder.Services.AddScoped<AppointmentAvailabilityService>();
 
 var app = builder.Build();
 
-// Uygulama banda DB migration ve seed ilemlerini altr
+// Uygulama baÅŸlatÄ±lÄ±rken veritabanÄ± migration ve seed iÅŸlemlerini Ã§alÄ±ÅŸtÄ±r
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

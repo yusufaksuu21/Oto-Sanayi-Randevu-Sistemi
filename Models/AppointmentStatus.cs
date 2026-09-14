@@ -1,6 +1,6 @@
 namespace SanayiRandevu.Models
 {
-    // Randevu durumlari
+    // Randevunun hangi aşamada olduğunu belirten durum listesi.
     public enum AppointmentStatus
     {
         Pending,
